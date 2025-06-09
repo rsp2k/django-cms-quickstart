@@ -1,9 +1,9 @@
 # Compile this file for changes to take effect:
+# pip install pip-tools
 # pip-compile -U --resolver=backtracking
 
-boto3
+# boto3
 psycopg2
-uwsgi
 
 django<=6
 dj-database-url
@@ -22,11 +22,19 @@ djangocms-admin-style>=3.2.2
 # the next-gen text editor
 djangocms-text
 
-
 # optional django CMS frontend
 djangocms-frontend
 
 django-filer
 
+djangocms-link
+djangocms-file
+djangocms-picture
+djangocms-video
+djangocms-googlemap
+djangocms-snippet
+djangocms-style
 
-pip-tools  # needed for compilation of this file into requirements.txt, see start of file
+djangocms-haystack
+
+django-create-initial-user
