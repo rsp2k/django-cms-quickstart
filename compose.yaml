@@ -20,8 +20,10 @@ services:
   database_default:
     # Select one of the following db configurations for the database
     image: postgres:15-alpine
-    ports:
-      - "${DB_PORT-}:5432/tcp"  # allow your local dev env to connect to the db if variable set
+    expose:
+      - 5432
+#    ports:
+#      - "${DB_PORT-}:5432/tcp"  # allow your local dev env to connect to the db if variable set
     environment:
       POSTGRES_DB: "db"
       POSTGRES_PASSWORD: "password"
