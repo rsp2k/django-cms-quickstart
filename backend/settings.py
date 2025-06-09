@@ -3,6 +3,8 @@ import os
 import dj_database_url
 from django_storage_url import dsn_configured_storage_class
 
+from django.utils.translation import gettext_lazy as _
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,6 +83,16 @@ INSTALLED_APPS = [
     'djangocms_frontend.contrib.image',
     'djangocms_frontend.contrib.tabs',
     'djangocms_frontend.contrib.utilities',
+
+    # more popular plugins
+    'djangocms_file',
+    'djangocms_googlemap',
+    'djangocms_haystack',
+    'djangocms_picture',
+    'djangocms-rest',
+    'djangocms_snippet',
+    'djangocms_style',
+    'djangocms_video',
 ]
 
 MIDDLEWARE = [
@@ -230,3 +242,41 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 CMS_CONFIRM_VERSION4 = True
 DJANGOCMS_VERSIONING_ALLOW_DELETING_VERSIONS = True
+
+HAYSTACK_CONNECTIONS = {
+    "default": {
+        "ENGINE": "haystack.backends.whoosh_backend.WhooshEngine",
+        "PATH": os.path.join(BASE_DIR, "search_index", "en"),
+    },
+}
+
+
+# For djangocms-haystack
+CMS_LANGUAGES = PARLER_LANGUAGES = {
+    1: [
+        {
+            "code": LANGUAGE_CODE,
+            "name": _(LANGUAGE_CODE),
+            "redirect_on_fallback": False,
+            "public": True,
+            "hide_untranslated": True,
+        },
+    ],
+    "default": {
+        "fallbacks": [LANGUAGE_CODE, ],
+        "redirect_on_fallback": False,
+        "public": True,
+        "hide_untranslated": True,
+    },
+}
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# 🔥 The magic happens here!
+if DEBUG:
+    AUTHENTICATION_BACKENDS.insert(0,
+        'create_initial_superuser.backends.CreateInitialSuperUserBackend'
+    )
